@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+.product-item {
+  margin: auto;
+}
+.products-list {
+  display: flex;
+  justify-content: center;
+}
+
+li {
+ list-style: none;
+}
+
+ul {
+  padding:  0;
+}
+.product-items-wrapper {
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+
+@media screen and (max-width: 1200px) {
+  .products-list {
+    flex-direction: column;
+  }
+}
