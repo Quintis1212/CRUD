@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import Modal from './components/Modal'
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,11 +22,13 @@ function App() {
         <div>
           <nav>
             <ul>
-              <li>
+              <li>      
+              <Button variant="contained">
                 <Link to="/">Home</Link>
+              </Button>
               </li>
               <li>
-              <Modal/>
+                <Modal />
               </li>
             </ul>
           </nav>

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: rgb(236, 228, 228);
+  padding: 20px;
 }
 
 .product-item {
@@ -23,6 +25,12 @@ ul {
   flex-wrap: wrap;
   justify-content: center;
 
+}
+
+.comments {
+  padding: 20px;
+  margin: 5px;
+  background-color: rgb(241, 232, 232);
 }
 
 @media screen and (max-width: 1200px) {

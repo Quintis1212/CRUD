@@ -27,6 +27,35 @@ export default function rootReducer(state = {}, action) {
         contentData:updatedContentData,
       };
     }
+    case "ADD_ITEM": {
+      const item = action.item;
+      const temporalID = Math.floor(Math.random() * 10000) + 1;
+      item["id"] = temporalID;
+      const updatedData = [...state.staticData, item] ;
+      const updatedContentData = [...state.contentData, item];
+      return {
+        ...state,
+        staticData: updatedData,
+        contentData:updatedContentData,
+      };
+    }
+    case "UPDATE_ITEM": {
+      const item = action.item;
+      const updatedData = state.staticData.map(el=>{
+        if(el.id === item.id){
+          return item
+        } else {
+          return el
+        }
+      }) ;
+      console.log(updatedData)
+
+      return {
+        ...state,
+        staticData: updatedData,
+        contentData:updatedData,
+      };
+    }
     case "SHOW_MODAL": {
       return {
         ...state,
@@ -45,7 +74,6 @@ export default function rootReducer(state = {}, action) {
       const activeFilters = [...state.activeFilters];
       const filterLength = state.uniqueNames.length;
       let storeResult = { contentData: [...state.staticData] };
-      console.log(activeFilters)
       if (itemName) {
         const itemIncludes = activeFilters.includes(itemName);
         if (!itemIncludes) {

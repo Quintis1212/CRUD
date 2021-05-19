@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    paddingTop:30,
+    marginTop:20,
   },
   media: {
     height: 140,
