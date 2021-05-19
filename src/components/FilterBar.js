@@ -23,10 +23,12 @@ export default function FilterBar() {
   const [quantity, setQuantity] = useState(1);
   const uniqueNames = useSelector((data) => data.uniqueNames);
   const dispatch = useDispatch();
+  //Filter event function 
   const eventHandler = (e) => {
     const itemName = e.target.value;
     dispatch({ type: "FILTER_DATA", itemName: itemName });
   };
+  //Filtering function by quantity
   const quantityHandler = (e) => {
     const itemVal = parseInt(e.target.value);
 

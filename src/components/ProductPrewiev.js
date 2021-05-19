@@ -14,8 +14,8 @@ import { useDispatch } from "react-redux";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-    paddingTop:30,
-    marginTop:20,
+    paddingTop: 30,
+    marginTop: 20,
   },
   media: {
     height: 140,
@@ -24,14 +24,15 @@ const useStyles = makeStyles({
 
 export default function ProductPrewiev({ productItem }) {
   const classes = useStyles();
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  //destructing for accessing values from productItem object
   const { name: title, description, imageUrl, count, id } = productItem;
+  //function that delete item
   const deleteItemHandler = () => {
     axios
       .delete(`/data/${id}.json`)
       .then((res) => {
-        dispatch({type:"DELETE_ITEM",id:id})
+        dispatch({ type: "DELETE_ITEM", id: id });
       })
       .catch((err) => {
         console.log(err);

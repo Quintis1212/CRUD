@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import axios from '../axios';
+import axios from "../axios";
 import { useDispatch } from "react-redux";
 
 function getModalStyle() {
@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal({mode,item}) {
-  mode = mode || "default"
-  item = item || {}
+export default function SimpleModal({ mode = "default", item = {} }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -42,15 +40,15 @@ export default function SimpleModal({mode,item}) {
   const inputWidth = React.useRef(null);
   const inputWeight = React.useRef(null);
   const dispatch = useDispatch();
-
+  //function that open modal
   const handleOpen = () => {
     setOpen(true);
   };
-
+  //function that close modal
   const handleClose = () => {
     setOpen(false);
   };
-
+  //function that checks inputs and add new item to database 
   const addItemHandler = () => {
     const inputNameVal = [inputName.current.value, "string"];
     const inputURLImgVal = [inputURLIMG.current.value, "URL"];
@@ -65,7 +63,7 @@ export default function SimpleModal({mode,item}) {
         case "string":
           return inputField.length > 0 && inputField.length < 150;
         case "URL":
-          return (inputField.match(/(jpg|gif|png)/) != null);
+          return inputField.match(/(jpg|gif|png)/) != null;
         case "number":
           return +inputField > 0 && +inputField < 100000;
         default:
@@ -73,61 +71,72 @@ export default function SimpleModal({mode,item}) {
         //console.log(inputField,value)
         // return false;
       }
-    }
+    };
 
-    const conditions = [inputNameVal, inputURLImgVal, inputDesVal, inputQuantityVal,
-      inputHeightVal, inputWeightVal, inputWidthVal]
-    const formIsValid = conditions.every(el => {
+    const conditions = [
+      inputNameVal,
+      inputURLImgVal,
+      inputDesVal,
+      inputQuantityVal,
+      inputHeightVal,
+      inputWeightVal,
+      inputWidthVal,
+    ];
+    const formIsValid = conditions.every((el) => {
       if (formCheck(...el)) {
         return true;
       } else {
-        alert(`Form input is not valid , ${el[0] || 'your currnet field'} must be a ${el[1] === "number" ? 'positive number, less that 10000 ' : el[1]} and not empty`)
-        return false
+        alert(
+          `Form input is not valid , ${
+            el[0] || "your currnet field"
+          } must be a ${
+            el[1] === "number" ? "positive number, less that 10000 " : el[1]
+          } and not empty`
+        );
+        return false;
       }
-
-    })
-
+    });
+      // if  formIsValid is true sending request
     if (formIsValid) {
-      const data =  {
-          "count": inputQuantityVal[0],
-          "description": inputDesVal[0],
-          "imageUrl": inputURLImgVal[0],
-          "name": inputNameVal[0],
-          "size": {
-            "height": inputHeightVal[0],
-            "width": inputWidthVal[0],
-          },
-          "weight": inputWeightVal[0],
-        }
-    if(mode === "edit"){
-      axios
-        .patch(`/data/${item.id}.json`, data)
-        .then((res) => {
-          console.log(res);
-          data.id = item.id
-          dispatch({type:"UPDATE_ITEM", item: data});
+      const data = {
+        count: inputQuantityVal[0],
+        description: inputDesVal[0],
+        imageUrl: inputURLImgVal[0],
+        name: inputNameVal[0],
+        size: {
+          height: inputHeightVal[0],
+          width: inputWidthVal[0],
+        },
+        weight: inputWeightVal[0],
+      };
+      if (mode === "edit") {
+        axios
+          .patch(`/data/${item.id}.json`, data)
+          .then((res) => {
+            console.log(res);
+            data.id = item.id;
+            dispatch({ type: "UPDATE_ITEM", item: data });
 
-          alert("Item was updated , check page for new item :)");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      axios
-        .post("/data.json", data)
-        .then((res) => {
-          console.log(res);
-          alert("Item published , check page for new item :)");
-          dispatch({ type: "ADD_ITEM", item: {...data,comments:[]}});
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+            alert("Item was updated , check page for new item :)");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        axios
+          .post("/data.json", data)
+          .then((res) => {
+            console.log(res);
+            alert("Item published , check page for new item :)");
+            dispatch({ type: "ADD_ITEM", item: { ...data, comments: [] } });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
-
-    }
-  }
-
+  };
+//input fielsd for modal
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <TextField
@@ -152,7 +161,6 @@ export default function SimpleModal({mode,item}) {
           shrink: true,
         }}
         defaultValue={item.imageUrl}
-
       />
       <TextField
         inputRef={inputDes}
@@ -164,7 +172,6 @@ export default function SimpleModal({mode,item}) {
           shrink: true,
         }}
         defaultValue={item.description}
-
       />
       <TextField
         inputRef={inputQuantity}
@@ -174,8 +181,7 @@ export default function SimpleModal({mode,item}) {
         margin="dense"
         variant="outlined"
         type="number"
-        defaultValue={item.count||1}
-
+        defaultValue={item.count || 1}
       />
 
       <TextField
@@ -187,14 +193,13 @@ export default function SimpleModal({mode,item}) {
         type="number"
         variant="outlined"
         defaultValue={item?.size?.height}
-
       />
       <TextField
         inputRef={inputWidth}
         label="Width"
         className={classes.textField}
         helperText="Must be a number"
-        margin="dense" 
+        margin="dense"
         variant="outlined"
         type="number"
         defaultValue={item?.size?.width}
@@ -208,42 +213,37 @@ export default function SimpleModal({mode,item}) {
         variant="outlined"
         type="number"
         defaultValue={item.weight}
-
       />
       <div>
-      <Button onClick={addItemHandler} variant="contained">
-        Add
-      </Button>
+        <Button onClick={addItemHandler} variant="contained">
+          Add
+        </Button>
       </div>
       <div>
-
-      <Button onClick={handleClose} variant="contained">
-        Cancel
-      </Button>
-            </div>
-
+        <Button onClick={handleClose} variant="contained">
+          Cancel
+        </Button>
+      </div>
     </div>
   );
 
   return (
     <div>
       <div>
-      <Button onClick={handleOpen} variant="contained">
-       {mode === "edit"? "Edit": "New product"} 
-      </Button>
+        <Button onClick={handleOpen} variant="contained">
+          {mode === "edit" ? "Edit" : "New product"}
+        </Button>
       </div>
       <div>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {body}
+        </Modal>
       </div>
-
     </div>
   );
 }

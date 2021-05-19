@@ -1,9 +1,9 @@
-import ProductView from '../components/ProductView'
+import ProductView from "../components/ProductView";
 
 export default function ProductPage() {
-    return (
-        <>
-            <ProductView/>
-        </>
-    )
+  return (
+    <>
+      <ProductView />
+    </>
+  );
 }

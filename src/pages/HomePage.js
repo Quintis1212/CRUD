@@ -9,6 +9,7 @@ export default function HomePage() {
   const [render, setRender] = useState("");
 
   useEffect(() => {
+    //check if content is setted show content , else show spinner
     if (content) {
       const res = content.map((el) => {
         return <ProductPrewiev key={el.id} productItem={el} />;

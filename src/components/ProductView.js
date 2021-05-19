@@ -5,31 +5,38 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from './Modal'
-import Comments from './Comments'
+import Modal from "./Modal";
+import Comments from "./Comments";
 
 const useStyles = makeStyles({
-    root: {
-      maxWidth: "80%",
-      paddingBottom:"10%",
-    },
-    media: {
-      height: 440,
-    },
-  });
-
+  root: {
+    maxWidth: "80%",
+    paddingBottom: "10%",
+  },
+  media: {
+    height: 440,
+  },
+});
 
 export default function ProductView() {
-
   const classes = useStyles();
-
-  const location = window.location.href.split("/").pop()
+  //getting id from window location
+  const location = window.location.href.split("/").pop();
   const content = useSelector((data) => data.contentData);
-  const item = content.find(el=>""+el.id === ""+location)
-  const { name: title, description, imageUrl, count ,comments,weight,size:{height,width} } = item;
+  //getting data about item from store using id 
+  const item = content.find((el) => "" + el.id === "" + location);
+  const {
+    name: title,
+    description,
+    imageUrl,
+    count,
+    comments,
+    weight,
+    size: { height, width },
+  } = item;
   return (
-    <Card className={classes.root+" product-item"}>
-      <Modal mode={"edit"} item={item}/>
+    <Card className={classes.root + " product-item"}>
+      <Modal mode={"edit"} item={item} />
       <CardActionArea>
         <CardMedia className={classes.media} image={imageUrl} title={title} />
         <CardContent>
@@ -45,8 +52,7 @@ export default function ProductView() {
           <Typography component="h5">width : {width}</Typography>
         </CardContent>
       </CardActionArea>
-      <Comments comments={comments} id={location}/>
-
+      <Comments comments={comments} id={location} />
     </Card>
   );
 }
